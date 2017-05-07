@@ -12,6 +12,7 @@
 #include <cmath>
 #include "json.hpp"
 
+const double PI = 3.14159265;
 
 using json = nlohmann::json;
 using namespace std;
@@ -21,6 +22,16 @@ struct Coordinate{
 	Coordinate(){
 		x = 0;
 		y = 0;
+	}
+};
+
+struct Line{
+	Coordinate c1, c2;
+
+	Line();
+	Line(Coordinate c1, Coordinate c2){
+		this->c1 = c1;
+		this->c2 = c2;
 	}
 };
 
@@ -42,15 +53,43 @@ struct SkeletalFrame{
 	Coordinate WristRight;
 	Coordinate HandRight;
 
+	Coordinate HipLeft;
+	Coordinate KneeLeft;
+	Coordinate AnkleLeft;
+
+	Coordinate HipRight;
+	Coordinate KneeRight;
+	Coordinate AnkleRight;
+
 	//calculated measurements
 	double height;
 	double leftHandLength;
 	double rightHandLength;
+	double leftLegLength;
+	double rightLegLegth;
+
+	//calculated angles;
+	double lowerLeftArmAngle;
+	double lowerRightArmAngle;
+
+	double upperLeftLegAngle;
+	double upperRightLegAngle;
+
+	double lowerLeftLegAngle;
+	double lowerRightLegAngle;
 
 	SkeletalFrame(){
 		height = 0;
 		leftHandLength = 0;
 		rightHandLength = 0;
+		leftLegLength = 0;
+		rightLegLegth = 0;
+		lowerLeftLegAngle = 0;
+		lowerRightLegAngle = 0;
+		upperLeftLegAngle = 0;
+		upperRightLegAngle = 0;
+		lowerLeftLegAngle = 0;
+		lowerRightLegAngle = 0;
 	}
 };
 
@@ -62,10 +101,29 @@ void extractCoordinateVal(string value, Coordinate &coord){
 
 double distanceBetweenCoordinates(Coordinate c1, Coordinate c2){
 	double dist = sqrt((pow(c2.x - c1.x, 2) + pow(c2.y - c1.y, 2)));
-	if (dist < 0) {
-		dist *= -1;
-	}
-	return dist;
+	return abs(dist);
+}
+
+double gradient(Line l1){
+	return (l1.c2.y - l1.c1.y) / (l1.c2.x - l1.c1.x);
+}
+
+double degreeToRadians(double degree){
+	return degree * (PI/180);
+}
+
+double radianToDegrees(double radian){
+	return radian * (180/PI);
+}
+
+double angleBetweenLines(Line l1, Line l2){
+	double angle = 0;
+	double m1 = gradient(l1);
+	double m2 = gradient(l2);
+
+	angle = (PI - abs(atan(m1) - atan(m2)));
+
+	return radianToDegrees(angle);
 }
 
 int main(int argc, const char * argv[]) {
@@ -99,6 +157,14 @@ int main(int argc, const char * argv[]) {
 		extractCoordinateVal(j[i]["WristRight"], temp.WristRight);
 		extractCoordinateVal(j[i]["HandRight"], temp.HandRight);
 
+		extractCoordinateVal(j[i]["HipLeft"], temp.HipLeft);
+		extractCoordinateVal(j[i]["KneeLeft"], temp.KneeLeft);
+		extractCoordinateVal(j[i]["AnkleLeft"], temp.AnkleLeft);
+
+		extractCoordinateVal(j[i]["HipRight"], temp.HipRight);
+		extractCoordinateVal(j[i]["KneeRight"], temp.KneeRight);
+		extractCoordinateVal(j[i]["AnkleRight"], temp.AnkleRight);
+
 		frames.push_back(temp);
 	}
 
@@ -107,9 +173,22 @@ int main(int argc, const char * argv[]) {
 	//calculate length of left arm
 
 	for (long i = 0; i < frames.size(); ++i) {
-		frames[i].height = distanceBetweenCoordinates(frames[i].SpineBase, frames[i].SpineMid) + distanceBetweenCoordinates(frames[i].SpineMid, frames[i].Neck) + distanceBetweenCoordinates(frames[i].Neck, frames[i].Head);
 		frames[i].leftHandLength = distanceBetweenCoordinates(frames[i].ShoulderLeft, frames[i].ElbowLeft) + distanceBetweenCoordinates(frames[i].ElbowLeft, frames[i].WristLeft) + distanceBetweenCoordinates(frames[i].WristLeft, frames[i].HandLeft);
 		frames[i].rightHandLength = distanceBetweenCoordinates(frames[i].ShoulderRight, frames[i].ElbowRight) + distanceBetweenCoordinates(frames[i].ElbowRight, frames[i].WristRight) + distanceBetweenCoordinates(frames[i].WristRight, frames[i].HandRight);
+
+		frames[i].leftLegLength = distanceBetweenCoordinates(frames[i].HipLeft, frames[i].KneeLeft) + distanceBetweenCoordinates(frames[i].KneeLeft, frames[i].AnkleLeft);
+		frames[i].rightLegLegth = distanceBetweenCoordinates(frames[i].HipRight, frames[i].KneeRight) + distanceBetweenCoordinates(frames[i].KneeRight, frames[i].AnkleRight);
+
+		frames[i].height = ((frames[i].leftLegLength + frames[i].rightLegLegth) / 2) + distanceBetweenCoordinates(frames[i].SpineBase, frames[i].SpineMid) + distanceBetweenCoordinates(frames[i].SpineMid, frames[i].Neck) + distanceBetweenCoordinates(frames[i].Neck, frames[i].Head);
+
+		frames[i].lowerLeftArmAngle = angleBetweenLines(Line(frames[i].ShoulderLeft, frames[i].ElbowLeft), Line(frames[i].ElbowLeft, frames[i].WristLeft));
+		frames[i].lowerRightArmAngle = angleBetweenLines(Line(frames[i].ShoulderRight, frames[i].ElbowRight), Line(frames[i].ElbowRight, frames[i].WristRight));
+
+		frames[i].upperLeftLegAngle = angleBetweenLines(Line(frames[i].SpineBase, frames[i].HipLeft), Line(frames[i].HipLeft, frames[i].KneeLeft));
+		frames[i].upperRightLegAngle = angleBetweenLines(Line(frames[i].SpineBase, frames[i].HipRight), Line(frames[i].HipRight, frames[i].KneeRight));
+
+		frames[i].lowerLeftLegAngle = angleBetweenLines(Line(frames[i].HipLeft, frames[i].KneeLeft), Line(frames[i].KneeLeft, frames[i].AnkleLeft));
+		frames[i].lowerRightLegAngle = angleBetweenLines(Line(frames[i].HipRight, frames[i].KneeRight), Line(frames[i].KneeRight, frames[i].AnkleRight));
 	}
 
 
