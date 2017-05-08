@@ -171,6 +171,7 @@ int main(int argc, const char * argv[]) {
 	//calculate height
 	//calculate length of right arm
 	//calculate length of left arm
+	//calculate angles between 3 key bones
 
 	for (long i = 0; i < frames.size(); ++i) {
 		frames[i].leftHandLength = distanceBetweenCoordinates(frames[i].ShoulderLeft, frames[i].ElbowLeft) + distanceBetweenCoordinates(frames[i].ElbowLeft, frames[i].WristLeft) + distanceBetweenCoordinates(frames[i].WristLeft, frames[i].HandLeft);
