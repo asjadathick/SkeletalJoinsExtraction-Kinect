@@ -23,7 +23,19 @@ struct Coordinate{
 		x = 0;
 		y = 0;
 	}
+	Coordinate(double x, double y){
+		this->x = x;
+		this->y = y;
+	}
 };
+
+Coordinate operator+(const Coordinate lh, const Coordinate rh){
+	return Coordinate(lh.x + rh.x, lh.y + rh.y);
+}
+
+Coordinate operator/(const Coordinate op, double divisor){
+	return Coordinate(op.x / divisor, op.y / divisor);
+}
 
 struct Line{
 	Coordinate c1, c2;
@@ -77,6 +89,8 @@ struct SkeletalFrame{
 
 	double lowerLeftLegAngle;
 	double lowerRightLegAngle;
+
+	Coordinate centerPoint;
 
 	SkeletalFrame(){
 		height = 0;
@@ -190,6 +204,10 @@ int main(int argc, const char * argv[]) {
 
 		frames[i].lowerLeftLegAngle = angleBetweenLines(Line(frames[i].HipLeft, frames[i].KneeLeft), Line(frames[i].KneeLeft, frames[i].AnkleLeft));
 		frames[i].lowerRightLegAngle = angleBetweenLines(Line(frames[i].HipRight, frames[i].KneeRight), Line(frames[i].KneeRight, frames[i].AnkleRight));
+
+		frames[i].centerPoint = frames[i].SpineBase + frames[i].SpineMid + frames[i].Neck + frames[i].Head + frames[i].ShoulderLeft + frames[i].ElbowLeft + frames[i].WristLeft + frames[i].HandLeft + frames[i].ShoulderRight + frames[i].ElbowRight + frames[i].WristRight + frames[i].HandRight + frames[i].HipLeft + frames[i].KneeLeft + frames[i].AnkleLeft + frames[i].HipLeft + frames[i].KneeRight + frames[i].AnkleRight;
+		frames[i].centerPoint = frames[i].centerPoint / 18;
+
 	}
 
 
