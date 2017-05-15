@@ -47,6 +47,39 @@ struct Line{
 	}
 };
 
+struct CentroidDistance{
+	double leftShoulder;
+	double leftElbow;
+	double leftHand;
+
+	double rightShoulder;
+	double rightElbow;
+	double rightHand;
+
+	double leftHip;
+	double leftKnee;
+	double leftAnkle;
+
+	double rightHip;
+	double rightKnee;
+	double rightAnkle;
+
+	CentroidDistance(){
+		leftShoulder = 0;
+		leftElbow = 0;
+		leftHand = 0;
+		rightShoulder = 0;
+		rightElbow = 0;
+		rightHand = 0;
+		leftHip = 0;
+		leftKnee = 0;
+		leftAnkle = 0;
+		rightHip = 0;
+		rightKnee = 0;
+		rightAnkle = 0;
+	}
+};
+
 struct SkeletalFrame{
 	//base vals
 	Coordinate SpineBase;
@@ -91,6 +124,8 @@ struct SkeletalFrame{
 	double lowerRightLegAngle;
 
 	Coordinate centerPoint;
+
+	CentroidDistance distances;
 
 	SkeletalFrame(){
 		height = 0;
@@ -140,8 +175,17 @@ double angleBetweenLines(Line l1, Line l2){
 	return radianToDegrees(angle);
 }
 
+void writeToFile(vector<SkeletalFrame> frames){
+	ofstream output("/Users/Asjad/Documents/Repos/SkeletalJoinsExtraction-Kinect/Join-Analysis-C++/Join-Analysis-C++/Justin-Walk-3.csv");
+	output << "frameNum, leftShoulder, leftElbow, leftWrist, rightShoulder, rightElbow, rightWrist, leftHip, leftKnee, leftAnkle, rightHip, rightKnee, rightAnkle" << endl;
+	for (int i = 0; i < frames.size(); ++i) {
+		output << i << ", " << frames[i].distances.leftShoulder << ", " << frames[i].distances.leftElbow << ", " << frames[i].distances.leftHand << ", " << frames[i].distances.rightShoulder << ", " << frames[i].distances.rightElbow << ", " << frames[i].distances.rightHand << ", " << frames[i].distances.leftHip << ", " << frames[i].distances.leftKnee << ", " << frames[i].distances.leftAnkle << ", " << frames[i].distances.rightHip << ", " << frames[i].distances.rightKnee << ", " << frames[i].distances.rightAnkle << endl;
+	}
+	output.close();
+}
+
 int main(int argc, const char * argv[]) {
-	ifstream input("/Users/Asjad/Documents/Repos/SkeletalJoinsExtraction-Kinect/DataExtracts/MotionOutput-Samples/stand.txt");
+	ifstream input("/Users/Asjad/Documents/Repos/SkeletalJoinsExtraction-Kinect/DataExtracts/Experiment/Justin-Walk-3.txt");
 	if (!input.good()) {
 		cout << "File open error" << endl;
 		return -1;
@@ -208,8 +252,28 @@ int main(int argc, const char * argv[]) {
 		frames[i].centerPoint = frames[i].SpineBase + frames[i].SpineMid + frames[i].Neck + frames[i].Head + frames[i].ShoulderLeft + frames[i].ElbowLeft + frames[i].WristLeft + frames[i].HandLeft + frames[i].ShoulderRight + frames[i].ElbowRight + frames[i].WristRight + frames[i].HandRight + frames[i].HipLeft + frames[i].KneeLeft + frames[i].AnkleLeft + frames[i].HipLeft + frames[i].KneeRight + frames[i].AnkleRight;
 		frames[i].centerPoint = frames[i].centerPoint / 18;
 
+		frames[i].distances.leftShoulder = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].ShoulderLeft);
+		frames[i].distances.leftElbow = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].ElbowLeft);
+		frames[i].distances.leftHand = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].HandLeft);
+
+		frames[i].distances.rightShoulder = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].ShoulderRight);
+		frames[i].distances.rightElbow = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].ElbowRight);
+		frames[i].distances.rightHand = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].HandRight);
+
+		frames[i].distances.leftHip = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].HipLeft);
+		frames[i].distances.leftKnee = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].KneeLeft);
+		frames[i].distances.leftAnkle = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].AnkleLeft);
+
+		frames[i].distances.rightHip = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].HipRight);
+		frames[i].distances.rightKnee = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].KneeRight);
+		frames[i].distances.rightAnkle = distanceBetweenCoordinates(frames[i].centerPoint, frames[i].AnkleRight);
+
+
 	}
 
+
+	//write CSV of distance variations
+	writeToFile(frames);
 
 	
 
