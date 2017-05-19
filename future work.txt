@@ -1,0 +1,8 @@
+future work
+
+auto correlation - 2 signals, what frequency components present in signal - 
+fast time fourier transform
+low pass filter (finite impulse response filter or butterworth nth order filter)
+ - will get rid of all sharp spikes in data
+
+ running average filter

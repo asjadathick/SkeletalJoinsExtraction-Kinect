@@ -272,9 +272,6 @@ int main(int argc, const char * argv[]) {
 	}
 
 
-	//write CSV of distance variations
-	writeToFile(frames);
-
 	
 
 	return 0;
