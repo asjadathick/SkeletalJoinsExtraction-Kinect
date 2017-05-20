@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		56B7AC151ECC29FE006BE974 /* kmeans.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56B7AC071ECC27BF006BE974 /* kmeans.cpp */; };
 		56FD4DA31EBEF8E500436992 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 56FD4DA21EBEF8E500436992 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		56B7AC0B1ECC2800006BE974 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		56FD4D9D1EBEF8E500436992 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -23,12 +33,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		56B7AC071ECC27BF006BE974 /* kmeans.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kmeans.cpp; path = "../Join-Analysis-C++/kmeans.cpp"; sourceTree = "<group>"; };
+		56B7AC0D1ECC2800006BE974 /* KMeansClustering */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = KMeansClustering; sourceTree = BUILT_PRODUCTS_DIR; };
 		56FD4D9F1EBEF8E500436992 /* Join-Analysis-C++ */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Join-Analysis-C++"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56FD4DA21EBEF8E500436992 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		56FD4DA91EBEFC0B00436992 /* json.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		56B7AC0A1ECC2800006BE974 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		56FD4D9C1EBEF8E500436992 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -39,10 +58,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		56B7AC0E1ECC2800006BE974 /* KMeansClustering */ = {
+			isa = PBXGroup;
+			children = (
+				56B7AC071ECC27BF006BE974 /* kmeans.cpp */,
+			);
+			path = KMeansClustering;
+			sourceTree = "<group>";
+		};
 		56FD4D961EBEF8E500436992 = {
 			isa = PBXGroup;
 			children = (
 				56FD4DA11EBEF8E500436992 /* Join-Analysis-C++ */,
+				56B7AC0E1ECC2800006BE974 /* KMeansClustering */,
 				56FD4DA01EBEF8E500436992 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				56FD4D9F1EBEF8E500436992 /* Join-Analysis-C++ */,
+				56B7AC0D1ECC2800006BE974 /* KMeansClustering */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -67,6 +96,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		56B7AC0C1ECC2800006BE974 /* KMeansClustering */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56B7AC111ECC2800006BE974 /* Build configuration list for PBXNativeTarget "KMeansClustering" */;
+			buildPhases = (
+				56B7AC091ECC2800006BE974 /* Sources */,
+				56B7AC0A1ECC2800006BE974 /* Frameworks */,
+				56B7AC0B1ECC2800006BE974 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KMeansClustering;
+			productName = KMeansClustering;
+			productReference = 56B7AC0D1ECC2800006BE974 /* KMeansClustering */;
+			productType = "com.apple.product-type.tool";
+		};
 		56FD4D9E1EBEF8E500436992 /* Join-Analysis-C++ */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 56FD4DA61EBEF8E500436992 /* Build configuration list for PBXNativeTarget "Join-Analysis-C++" */;
@@ -93,6 +139,10 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Asjad Athick";
 				TargetAttributes = {
+					56B7AC0C1ECC2800006BE974 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+					};
 					56FD4D9E1EBEF8E500436992 = {
 						CreatedOnToolsVersion = 8.3;
 						ProvisioningStyle = Automatic;
@@ -112,11 +162,20 @@
 			projectRoot = "";
 			targets = (
 				56FD4D9E1EBEF8E500436992 /* Join-Analysis-C++ */,
+				56B7AC0C1ECC2800006BE974 /* KMeansClustering */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		56B7AC091ECC2800006BE974 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56B7AC151ECC29FE006BE974 /* kmeans.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		56FD4D9B1EBEF8E500436992 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +187,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		56B7AC121ECC2800006BE974 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		56B7AC131ECC2800006BE974 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		56FD4DA41EBEF8E500436992 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -234,6 +307,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		56B7AC111ECC2800006BE974 /* Build configuration list for PBXNativeTarget "KMeansClustering" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56B7AC121ECC2800006BE974 /* Debug */,
+				56B7AC131ECC2800006BE974 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		56FD4D9A1EBEF8E500436992 /* Build configuration list for PBXProject "Join-Analysis-C++" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -250,6 +331,7 @@
 				56FD4DA81EBEF8E500436992 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
